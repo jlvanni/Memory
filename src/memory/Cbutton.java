@@ -1,6 +1,7 @@
 package memory;
 
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 
@@ -11,31 +12,33 @@ import javax.swing.JButton;
 public class Cbutton extends JButton {
 private static final long serialVersionUID = 1L;
 	
-	private Image imgCroix;
-	private Image imgRond;
+	private Image imgFace;
+	private Image imgDos;
 	
-	public static final int ETAT_DEFAULT = 0;
-	public static final int ETAT_X = 1;
-	public static final int ETAT_O = 2;
+	public static final int ETAT_INVISIBLZ = 0;
+	public static final int ETAT_DOS = 1;
+	public static final int ETAT_FACE = 2;
+	//public static final String choix_card;
+	//private String choix_card;
 	private int etat;
 	
-	public Cbutton(String text){
+	public Cbutton(String text, String imageBtn, ActionListener actionListener){
 		super(text);
 		
-		URL ressourceCroix;
-		URL ressourceRond;
+		URL ressourceDos;
+		URL ressourceFace;
 		
-		ressourceCroix = getClass().getResource("/immg/bille.jpg");
-		//ressourceRond = getClass().getResource("/resources/rond.png");
+		ressourceFace= getClass().getResource("/resources/"+imageBtn+".jpg");
+		ressourceDos = getClass().getResource("/resources/dos.jpg");
 		
 		try {
-			imgCroix = ImageIO.read(ressourceCroix);
-			//imgRond = ImageIO.read(ressourceRond);
+			imgFace = ImageIO.read(ressourceFace);
+			imgDos = ImageIO.read(ressourceDos);
 		} catch (IOException e) {
 		}
-		
-		etat = ETAT_DEFAULT;
-		
+		setIcon(new ImageIcon(imgFace));
+		etat = ETAT_DOS;
+		addActionListener(actionListener);
 	}
 	
 	public int getEtat(){
@@ -44,16 +47,22 @@ private static final long serialVersionUID = 1L;
 	
 	public void setEtat(int etat){
 		this.etat = etat;
+		
 		switch (etat) {
-		case ETAT_X:
-			setIcon(new ImageIcon(imgCroix));
+		case ETAT_DOS:
+			setIcon(new ImageIcon(imgDos));
 			break;
-		case ETAT_O : 
-			setIcon(new ImageIcon(imgRond));
+		case ETAT_FACE : 
+			setIcon(new ImageIcon(imgFace));
 			break;
 		default:
-			setIcon(null);
+			setVisible(false) ;
 			break;
 		}
+		repaint(); 
 	}
+
+
+
+
 }
