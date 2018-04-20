@@ -19,7 +19,8 @@ public class GameWindow extends JFrame {
 	private int levelGame;
 	private JPanel contentPane;
 	public static ArrayList<Cbutton> butimge = new ArrayList<Cbutton>();
-
+	private Cbutton cbutton1;
+	private Cbutton cbutton2;
 	/**
 	 * Create the frame.
 	 * @param lvl 
@@ -86,13 +87,80 @@ public class GameWindow extends JFrame {
 
 		for (Cbutton cbutton : listeCartes) {
 			contentPane.add(cbutton);
+			//butimge.add(cbutton);
+
+
 		}
+
+		// on affiche le dos des cartes
+		for (Cbutton cbutton : listeCartes) {
+			cbutton.setEtat(1);
+
+
+		}
+
+		//recupcard();
+
 	}
 
 	ActionListener choiximglActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			Cbutton btn = (Cbutton) e.getSource();
+			if(btn.getEtat() != Cbutton.ETAT_DOS) return;
 			btn.setEtat(Cbutton.ETAT_FACE);
+			if(cbutton1 == null) {
+				cbutton1 = btn;
+			}else if(cbutton2 == null) {
+				cbutton2 = btn;
+				if(cbutton1.equals(cbutton2)) {
+					cbutton1.setEtat(Cbutton.ETAT_INVISIBLE);
+					cbutton2.setEtat(Cbutton.ETAT_INVISIBLE);
+					cbutton1 = null;
+					cbutton2 = null;
+				}
+			}else {
+				if(cbutton1.equals(cbutton2)) {
+					cbutton1.setEtat(Cbutton.ETAT_INVISIBLE);
+					cbutton2.setEtat(Cbutton.ETAT_INVISIBLE);
+					cbutton1 = btn;
+					cbutton2 = null;
+				}else {
+					cbutton1.setEtat(Cbutton.ETAT_DOS);
+					cbutton2.setEtat(Cbutton.ETAT_DOS);
+					cbutton1 = btn;
+					cbutton2 = null;
+				}
+			}
+			//verifetat();
+			
+
+
+
+			//TODO on start le timer
+
 		}
+
 	};
+
+	// recuperer tout les custom button
+	public void recupcard()
+
+	{
+		int e;
+		for (e=0;e<butimge.size();e++) {
+			System.out.println(butimge.get(e));
+		}
+	}
+
+	public void verifetat()
+
+	{
+		int e;
+		for (e=0;e<butimge.size();e++) {
+			System.out.println(butimge.get(e).getEtat());
+		}
+	}
+
+
+
 }
